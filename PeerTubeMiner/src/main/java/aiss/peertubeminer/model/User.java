@@ -1,0 +1,27 @@
+package aiss.peertubeminer.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class User {
+
+    @JsonProperty("id")
+    private Long id;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("user_link")
+    private String userLink;
+
+    @JsonProperty("picture_link")
+    private String pictureLink;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getUserLink() { return userLink; }
+    public void setUserLink(String userLink) { this.userLink = userLink; }
+    public String getPictureLink() { return pictureLink; }
+    public void setPictureLink(String pictureLink) { this.pictureLink = pictureLink; }
+}
