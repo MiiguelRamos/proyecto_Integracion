@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Map<String, String>> handleNotFound(HttpClientErrorException.NotFound ex) {
         Map<String, String> body = new HashMap<>();
-        body.put("error", "Recurso no encontrado en PeerTube: " + ex.getMessage());
+        body.put("error", "Resource not found in PeerTube: " + ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Map<String, String>> handleClientError(HttpClientErrorException ex) {
         Map<String, String> body = new HashMap<>();
-        body.put("error", "Error de cliente al llamar al servicio externo: " + ex.getMessage());
+        body.put("error", "Client error when calling external service: " + ex.getMessage());
         return new ResponseEntity<>(body, ex.getStatusCode());
     }
 
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Map<String, String>> handleServerError(HttpServerErrorException ex) {
         Map<String, String> body = new HashMap<>();
-        body.put("error", "Error en el servicio externo: " + ex.getMessage());
+        body.put("error", "Upstream service error: " + ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_GATEWAY);
     }
 
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Map<String, String>> handleResourceAccess(ResourceAccessException ex) {
         Map<String, String> body = new HashMap<>();
-        body.put("error", "No se puede contactar con el servicio externo: " + ex.getMessage());
+        body.put("error", "Cannot reach external service: " + ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.SERVICE_UNAVAILABLE);
     }
 }

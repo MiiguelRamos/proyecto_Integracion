@@ -23,11 +23,11 @@ public class PeerTubeMinerService {
     RestTemplate restTemplate;
 
     public Channel getChannel(String channelId, int maxVideos, int maxComments) {
-        // 1. Get channel info from PeerTube
+        // 1. Obtener información del canal desde PeerTube
         String channelUrl = peerTubeBaseUrl + "/api/v1/video-channels/" + channelId;
         JsonNode ptChannel = restTemplate.getForObject(channelUrl, JsonNode.class);
 
-        // 2. Get videos of the channel
+        // 2. Obtener los vídeos del canal
         String videosUrl = peerTubeBaseUrl + "/api/v1/video-channels/" + channelId
                 + "/videos?count=" + maxVideos + "&start=0";
         JsonNode videoResponse = restTemplate.getForObject(videosUrl, JsonNode.class);
@@ -53,7 +53,7 @@ public class PeerTubeMinerService {
             }
         }
 
-        // 3. Build channel
+        // 3. Construir el canal
         Channel channel = new Channel();
         channel.setId(ptChannel.get("name").asText());
         channel.setName(ptChannel.get("displayName").asText());

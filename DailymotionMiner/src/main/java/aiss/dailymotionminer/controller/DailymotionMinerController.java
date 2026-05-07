@@ -29,7 +29,7 @@ public class DailymotionMinerController {
     }
 
 
-        // Versión de solo lectura: obtiene los datos del canal desde Dailymotion sin enviarlos a VideoMiner.
+    // Versión de solo lectura: obtiene los datos del canal desde Dailymotion sin enviarlos a VideoMiner.
     // Útil para pruebas y para previsualizar los datos mapeados.
 
     @GetMapping("/{channelId}")

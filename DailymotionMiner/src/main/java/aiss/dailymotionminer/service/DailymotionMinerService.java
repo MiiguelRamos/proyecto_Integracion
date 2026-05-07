@@ -26,12 +26,12 @@ public class DailymotionMinerService {
     RestTemplate restTemplate;
 
     public Channel getChannel(String channelId, int maxVideos, int maxPages) {
-        // 1. Get user/channel info from Dailymotion
+        // 1. Obtener información del usuario/canal desde Dailymotion
         String userUrl = dailymotionBaseUrl + "/user/" + channelId
                 + "?fields=id,screenname,description,created_time";
         JsonNode dmUser = restTemplate.getForObject(userUrl, JsonNode.class);
 
-        // 2. Get videos (paginated with maxPages)
+        // 2. Obtener los vídeos (paginados con maxPages)
         List<Video> videos = new ArrayList<>();
         int page = 1;
 
@@ -72,7 +72,7 @@ public class DailymotionMinerService {
             page++;
         }
 
-        // 3. Build channel
+        // 3. Construir el canal
         Channel channel = new Channel();
         channel.setId(dmUser.get("id").asText());
         channel.setName(dmUser.get("screenname").asText());
@@ -83,7 +83,7 @@ public class DailymotionMinerService {
         return channel;
     }
 
-    // Dailymotion has no comments — use video tags instead
+    // Dailymotion no tiene comentarios — se usan los tags del vídeo en su lugar
     private List<Comment> fetchTags(String videoId) {
         String url = dailymotionBaseUrl + "/video/" + videoId + "?fields=tags";
         JsonNode response = restTemplate.getForObject(url, JsonNode.class);
@@ -103,7 +103,7 @@ public class DailymotionMinerService {
         return comments;
     }
 
-    // Dailymotion captions are called "subtitles"
+    // Las captions en Dailymotion se llaman "subtitles"
     private List<Caption> fetchSubtitles(String videoId) {
         String url = dailymotionBaseUrl + "/video/" + videoId
                 + "/subtitles?fields=id,language,url";
