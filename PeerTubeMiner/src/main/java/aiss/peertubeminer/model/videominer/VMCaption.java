@@ -1,8 +1,8 @@
-package aiss.dailymotionminer.model;
+package aiss.peertubeminer.model.videominer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Caption {
+public class VMCaption {
 
     @JsonProperty("id")
     private String id;

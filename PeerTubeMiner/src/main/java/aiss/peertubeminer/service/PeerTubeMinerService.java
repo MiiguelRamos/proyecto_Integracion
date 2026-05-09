@@ -1,7 +1,17 @@
 package aiss.peertubeminer.service;
 
-import aiss.peertubeminer.model.*;
-import com.fasterxml.jackson.databind.JsonNode;
+import aiss.peertubeminer.etl.Transformer;
+import aiss.peertubeminer.model.peertube.Caption;
+import aiss.peertubeminer.model.peertube.CaptionSearch;
+import aiss.peertubeminer.model.peertube.Channel;
+import aiss.peertubeminer.model.peertube.Comment;
+import aiss.peertubeminer.model.peertube.CommentSearch;
+import aiss.peertubeminer.model.peertube.Video;
+import aiss.peertubeminer.model.peertube.VideoSearch;
+import aiss.peertubeminer.model.videominer.VMCaption;
+import aiss.peertubeminer.model.videominer.VMChannel;
+import aiss.peertubeminer.model.videominer.VMComment;
+import aiss.peertubeminer.model.videominer.VMVideo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class PeerTubeMinerService {
@@ -22,108 +33,70 @@ public class PeerTubeMinerService {
     @Autowired
     RestTemplate restTemplate;
 
-    public Channel getChannel(String channelId, int maxVideos, int maxComments) {
+
+     // Obtiene un canal completo de PeerTube y lo devuelve en formato VideoMiner.
+
+    public VMChannel getChannel(String channelId, int maxVideos, int maxComments) {
         // 1. Obtener información del canal desde PeerTube
-        String channelUrl = peerTubeBaseUrl + "/api/v1/video-channels/" + channelId;
-        JsonNode ptChannel = restTemplate.getForObject(channelUrl, JsonNode.class);
+        Channel ptChannel = restTemplate.getForObject(
+                peerTubeBaseUrl + "/api/v1/video-channels/" + channelId,
+                Channel.class);
 
-        // 2. Obtener los vídeos del canal
-        String videosUrl = peerTubeBaseUrl + "/api/v1/video-channels/" + channelId
-                + "/videos?count=" + maxVideos + "&start=0";
-        JsonNode videoResponse = restTemplate.getForObject(videosUrl, JsonNode.class);
+        // 2. Obtener los vídeos del canal y mapearlos
+        VideoSearch videoResponse = restTemplate.getForObject(
+                peerTubeBaseUrl + "/api/v1/video-channels/" + channelId
+                        + "/videos?count=" + maxVideos + "&start=0",
+                VideoSearch.class);
 
-        List<Video> videos = new ArrayList<>();
-        if (videoResponse != null && videoResponse.has("data")) {
-            for (JsonNode ptVideo : videoResponse.get("data")) {
-                String videoId = ptVideo.get("uuid").asText();
-
-                List<Comment> comments = fetchComments(videoId, maxComments);
-                List<Caption> captions = fetchCaptions(videoId);
-                User user = mapUser(ptVideo.has("account") ? ptVideo.get("account") : null);
-
-                Video video = new Video();
-                video.setId(videoId);
-                video.setName(ptVideo.get("name").asText());
-                video.setDescription(textOrNull(ptVideo, "description"));
-                video.setReleaseTime(ptVideo.get("publishedAt").asText());
-                video.setUser(user);
-                video.setComments(comments);
-                video.setCaptions(captions);
-                videos.add(video);
+        List<VMVideo> vmVideos = new ArrayList<>();
+        if (videoResponse != null && videoResponse.getData() != null) {
+            for (Video ptVideo : videoResponse.getData()) {
+                List<VMComment> vmComments = fetchComments(ptVideo.getUuid(), maxComments);
+                List<VMCaption> vmCaptions = fetchCaptions(ptVideo.getUuid());
+                vmVideos.add(Transformer.toVMVideo(ptVideo, vmComments, vmCaptions));
             }
         }
 
-        // 3. Construir el canal
-        Channel channel = new Channel();
-        channel.setId(ptChannel.get("name").asText());
-        channel.setName(ptChannel.get("displayName").asText());
-        channel.setDescription(textOrNull(ptChannel, "description"));
-        channel.setCreatedTime(ptChannel.get("createdAt").asText());
-        channel.setVideos(videos);
-
-        return channel;
+        // 3. Construir el VMChannel final con todos los vídeos transformados
+        return Transformer.toVMChannel(ptChannel, vmVideos);
     }
 
-    private List<Comment> fetchComments(String videoId, int maxComments) {
-        String url = peerTubeBaseUrl + "/api/v1/videos/" + videoId
-                + "/comment-threads?count=" + maxComments + "&start=0";
-        JsonNode response = restTemplate.getForObject(url, JsonNode.class);
+    private List<VMComment> fetchComments(String videoId, int maxComments) {
+        CommentSearch response = restTemplate.getForObject(
+                peerTubeBaseUrl + "/api/v1/videos/" + videoId
+                        + "/comment-threads?count=" + maxComments + "&start=0",
+                CommentSearch.class);
 
-        List<Comment> comments = new ArrayList<>();
-        if (response != null && response.has("data")) {
-            for (JsonNode ptComment : response.get("data")) {
-                Comment comment = new Comment();
-                comment.setId(ptComment.get("id").asText());
-                comment.setText(textOrNull(ptComment, "text"));
-                comment.setCreatedOn(ptComment.get("createdAt").asText());
-                comments.add(comment);
+        List<VMComment> result = new ArrayList<>();
+        if (response != null && response.getData() != null) {
+            for (Comment ptComment : response.getData()) {
+                result.add(Transformer.toVMComment(ptComment));
             }
         }
-        return comments;
+        return result;
     }
 
-    private List<Caption> fetchCaptions(String videoId) {
-        String url = peerTubeBaseUrl + "/api/v1/videos/" + videoId + "/captions";
-        JsonNode response = restTemplate.getForObject(url, JsonNode.class);
+    private List<VMCaption> fetchCaptions(String videoId) {
+        CaptionSearch response = restTemplate.getForObject(
+                peerTubeBaseUrl + "/api/v1/videos/" + videoId + "/captions",
+                CaptionSearch.class);
 
-        List<Caption> captions = new ArrayList<>();
-        if (response != null && response.has("data")) {
-            for (JsonNode ptCaption : response.get("data")) {
-                JsonNode lang = ptCaption.get("language");
-                String langId = (lang != null && !lang.isNull() && lang.has("id")) ? lang.get("id").asText() : "unknown";
-                Caption caption = new Caption();
-                caption.setId(videoId + "_" + langId);
-                caption.setName(ptCaption.get("captionPath").asText());
-                caption.setLanguage(langId);
-                captions.add(caption);
+        List<VMCaption> result = new ArrayList<>();
+        if (response != null && response.getData() != null) {
+            for (Caption ptCaption : response.getData()) {
+                result.add(Transformer.toVMCaption(ptCaption, videoId));
             }
         }
-        return captions;
+        return result;
     }
 
-    private User mapUser(JsonNode account) {
-        if (account == null || account.isNull()) return null;
-        User user = new User();
-        user.setName(account.has("displayName") ? account.get("displayName").asText() : null);
-        user.setUserLink(account.has("url") ? account.get("url").asText() : null);
-        if (account.has("avatars") && account.get("avatars").isArray()
-                && account.get("avatars").size() > 0) {
-            JsonNode avatar = account.get("avatars").get(0);
-            user.setPictureLink(avatar.has("url") ? avatar.get("url").asText() : null);
-        }
-        return user;
-    }
 
-    private String textOrNull(JsonNode node, String field) {
-        if (node != null && node.has(field) && !node.get(field).isNull()) {
-            String val = node.get(field).asText();
-            return val.isBlank() ? null : val;
-        }
-        return null;
-    }
+     // Envía un VMChannel ya transformado a VideoMiner mediante POST.
 
-    public void sendToVideoMiner(Channel channel) {
+    public void sendToVideoMiner(VMChannel channel) {
         restTemplate.postForObject(
-                videoMinerBaseUrl + "/videominer/channels", channel, Channel.class);
+                videoMinerBaseUrl + "/videominer/channels",
+                channel,
+                VMChannel.class);
     }
 }

@@ -1,9 +1,10 @@
-package aiss.dailymotionminer.model;
+package aiss.dailymotionminer.model.videominer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-public class Channel {
+public class VMChannel {
 
     @JsonProperty("id")
     private String id;
@@ -18,7 +19,7 @@ public class Channel {
     private String createdTime;
 
     @JsonProperty("videos")
-    private List<Video> videos;
+    private List<VMVideo> videos;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -28,6 +29,6 @@ public class Channel {
     public void setDescription(String description) { this.description = description; }
     public String getCreatedTime() { return createdTime; }
     public void setCreatedTime(String createdTime) { this.createdTime = createdTime; }
-    public List<Video> getVideos() { return videos; }
-    public void setVideos(List<Video> videos) { this.videos = videos; }
+    public List<VMVideo> getVideos() { return videos; }
+    public void setVideos(List<VMVideo> videos) { this.videos = videos; }
 }
