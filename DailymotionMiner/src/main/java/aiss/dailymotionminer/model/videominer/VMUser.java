@@ -1,11 +1,8 @@
-package aiss.peertubeminer.model;
+package aiss.dailymotionminer.model.videominer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User {
-
-    @JsonProperty("id")
-    private Long id;
+public class VMUser {
 
     @JsonProperty("name")
     private String name;
@@ -16,8 +13,6 @@ public class User {
     @JsonProperty("picture_link")
     private String pictureLink;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getUserLink() { return userLink; }

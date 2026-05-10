@@ -1,9 +1,10 @@
-package aiss.dailymotionminer.model;
+package aiss.peertubeminer.model.videominer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-public class Video {
+public class VMVideo {
 
     @JsonProperty("id")
     private String id;
@@ -18,13 +19,13 @@ public class Video {
     private String releaseTime;
 
     @JsonProperty("user")
-    private User user;
+    private VMUser user;
 
     @JsonProperty("comments")
-    private List<Comment> comments;
+    private List<VMComment> comments;
 
     @JsonProperty("captions")
-    private List<Caption> captions;
+    private List<VMCaption> captions;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -34,10 +35,10 @@ public class Video {
     public void setDescription(String description) { this.description = description; }
     public String getReleaseTime() { return releaseTime; }
     public void setReleaseTime(String releaseTime) { this.releaseTime = releaseTime; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-    public List<Comment> getComments() { return comments; }
-    public void setComments(List<Comment> comments) { this.comments = comments; }
-    public List<Caption> getCaptions() { return captions; }
-    public void setCaptions(List<Caption> captions) { this.captions = captions; }
+    public VMUser getUser() { return user; }
+    public void setUser(VMUser user) { this.user = user; }
+    public List<VMComment> getComments() { return comments; }
+    public void setComments(List<VMComment> comments) { this.comments = comments; }
+    public List<VMCaption> getCaptions() { return captions; }
+    public void setCaptions(List<VMCaption> captions) { this.captions = captions; }
 }
