@@ -30,6 +30,7 @@ public class User {
     }
 
     public User(String id, String name, String user_link, String picture_link) {
+        this.id = id;
         this.name = name;
         this.user_link = user_link;
         this.picture_link = picture_link;
