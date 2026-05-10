@@ -40,6 +40,14 @@ public class Channel {
     public Channel() {
         this.videos = new ArrayList<>();
     }
+    
+    public Channel(String id, String name, String description, String createdTime, List<Video> videos) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.createdTime = createdTime;
+        this.videos = videos != null ? videos : new ArrayList<>();
+    }
 
     public String getId() {
         return id;

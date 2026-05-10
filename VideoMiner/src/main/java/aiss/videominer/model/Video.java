@@ -44,6 +44,19 @@ public class Video {
     @JoinColumn(name = "videoId")
     private List<Caption> captions;
 
+    public Video() {
+    }
+
+    public Video(String id, String name, String description, String releaseTime, User author, List<Comment> comments, List<Caption> captions) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.releaseTime = releaseTime;
+        this.author = author;
+        this.comments = comments;
+        this.captions = captions;
+    }
+
     public String getId() {
         return id;
     }
