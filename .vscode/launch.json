@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "VideominerApplication",
+            "request": "launch",
+            "mainClass": "aiss.videominer.VideominerApplication",
+            "projectName": "videominer"
+        },
+        {
+            "type": "java",
+            "name": "DailymotionMinerApplication",
+            "request": "launch",
+            "mainClass": "aiss.dailymotionminer.DailymotionMinerApplication",
+            "projectName": "dailymotionminer"
+        },
+        {
+            "type": "java",
+            "name": "PeerTubeMinerApplication",
+            "request": "launch",
+            "mainClass": "aiss.peertubeminer.PeerTubeMinerApplication",
+            "projectName": "peertubeminer"
+        },
+        {
+            "type": "jdk",
+            "request": "launch",
+            "name": "Launch Java App"
+        }
+    ]
+}
