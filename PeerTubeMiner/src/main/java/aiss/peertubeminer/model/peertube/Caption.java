@@ -12,8 +12,19 @@ public class Caption {
     @JsonProperty("captionPath")
     private String captionPath;
 
-    public Language getLanguage() { return language; }
-    public void setLanguage(Language language) { this.language = language; }
-    public String getCaptionPath() { return captionPath; }
-    public void setCaptionPath(String captionPath) { this.captionPath = captionPath; }
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public String getCaptionPath() {
+        return captionPath;
+    }
+
+    public void setCaptionPath(String captionPath) {
+        this.captionPath = captionPath;
+    }
 }

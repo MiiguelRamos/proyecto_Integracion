@@ -13,10 +13,25 @@ public class VMUser {
     @JsonProperty("picture_link")
     private String pictureLink;
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUserLink() { return userLink; }
-    public void setUserLink(String userLink) { this.userLink = userLink; }
-    public String getPictureLink() { return pictureLink; }
-    public void setPictureLink(String pictureLink) { this.pictureLink = pictureLink; }
+
+    public void setUserLink(String userLink) {
+        this.userLink = userLink;
+    }
+
+    public String getPictureLink() {
+        return pictureLink;
+    }
+
+    public void setPictureLink(String pictureLink) {
+        this.pictureLink = pictureLink;
+    }
 }

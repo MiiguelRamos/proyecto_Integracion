@@ -20,12 +20,35 @@ public class VideoSearch {
     @JsonProperty("list")
     private List<Video> list;
 
-    public Integer getPage() { return page; }
-    public void setPage(Integer page) { this.page = page; }
-    public Integer getLimit() { return limit; }
-    public void setLimit(Integer limit) { this.limit = limit; }
-    public Boolean getHasMore() { return hasMore; }
-    public void setHasMore(Boolean hasMore) { this.hasMore = hasMore; }
-    public List<Video> getList() { return list; }
-    public void setList(List<Video> list) { this.list = list; }
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Boolean getHasMore() {
+        return hasMore;
+    }
+
+    public void setHasMore(Boolean hasMore) {
+        this.hasMore = hasMore;
+    }
+
+    public List<Video> getList() {
+        return list;
+    }
+
+    public void setList(List<Video> list) {
+        this.list = list;
+    }
 }

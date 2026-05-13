@@ -14,8 +14,19 @@ public class VideoSearch {
     @JsonProperty("data")
     private List<Video> data;
 
-    public Integer getTotal() { return total; }
-    public void setTotal(Integer total) { this.total = total; }
-    public List<Video> getData() { return data; }
-    public void setData(List<Video> data) { this.data = data; }
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public List<Video> getData() {
+        return data;
+    }
+
+    public void setData(List<Video> data) {
+        this.data = data;
+    }
 }

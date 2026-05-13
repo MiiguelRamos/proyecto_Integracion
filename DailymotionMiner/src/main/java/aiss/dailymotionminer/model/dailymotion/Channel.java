@@ -18,12 +18,35 @@ public class Channel {
     @JsonProperty("created_time")
     private Long createdTime;
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    public String getScreenname() { return screenname; }
-    public void setScreenname(String screenname) { this.screenname = screenname; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public Long getCreatedTime() { return createdTime; }
-    public void setCreatedTime(Long createdTime) { this.createdTime = createdTime; }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getScreenname() {
+        return screenname;
+    }
+
+    public void setScreenname(String screenname) {
+        this.screenname = screenname;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Long createdTime) {
+        this.createdTime = createdTime;
+    }
 }

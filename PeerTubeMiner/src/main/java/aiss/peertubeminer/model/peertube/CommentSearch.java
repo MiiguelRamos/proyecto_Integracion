@@ -14,8 +14,19 @@ public class CommentSearch {
     @JsonProperty("data")
     private List<Comment> data;
 
-    public Integer getTotal() { return total; }
-    public void setTotal(Integer total) { this.total = total; }
-    public List<Comment> getData() { return data; }
-    public void setData(List<Comment> data) { this.data = data; }
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public List<Comment> getData() {
+        return data;
+    }
+
+    public void setData(List<Comment> data) {
+        this.data = data;
+    }
 }

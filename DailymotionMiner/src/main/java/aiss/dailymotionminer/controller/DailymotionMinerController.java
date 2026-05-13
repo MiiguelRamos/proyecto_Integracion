@@ -14,7 +14,7 @@ public class DailymotionMinerController {
 
 
     // Obtiene los datos de un canal desde Dailymotion y los envía a VideoMiner.
-    //  channelId = identificador de usuario de Dailymotion (ej. "euronews").
+    //  channelId = identificador de usuario de Dailymotion (ej. "elmundo").
     // Devuelve el VMChannel ya transformado al formato de VideoMiner.
     // Los errores se traducen a respuestas HTTP en GlobalExceptionHandler.
 

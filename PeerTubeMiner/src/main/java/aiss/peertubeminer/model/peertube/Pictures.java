@@ -15,10 +15,27 @@ public class Pictures {
     @JsonProperty("width")
     private Integer width;
 
-    public String getPath() { return path; }
-    public void setPath(String path) { this.path = path; }
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
-    public Integer getWidth() { return width; }
-    public void setWidth(Integer width) { this.width = width; }
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
 }
