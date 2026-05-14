@@ -35,13 +35,14 @@ public class DailymotionMinerService {
      // Obtiene un canal completo de Dailymotion y lo devuelve ya en formato VideoMiner.
 
     public VMChannel getChannel(String channelId, int maxVideos, int maxPages) {
-        // 1. Obtener información del usuario/canal desde Dailymotion
+        // 1. Cogemos la información de la API de dailymotion y la guardamos en los modelos
         Channel dmChannel = restTemplate.getForObject(
                 dailymotionBaseUrl + "/user/" + channelId
                         + "?fields=id,screenname,description,created_time",
                 Channel.class);
 
         // 2. Obtener los vídeos (paginados con maxPages) y mapearlos
+        //    Este bucle debemos de hacerlo porque la API devuelve los videos paginados
         List<VMVideo> vmVideos = new ArrayList<>();
         int page = 1;
 
@@ -69,7 +70,7 @@ public class DailymotionMinerService {
             page++;
         }
 
-        // 3. Construir el VMChannel final con todos los vídeos transformados
+        // 3. Construir el VMChannel final con todos los vídeos transformados (forpamto videoMiner)
         return Transformer.toVMChannel(dmChannel, vmVideos);
     }
 

@@ -37,7 +37,7 @@ public class PeerTubeMinerService {
      // Obtiene un canal completo de PeerTube y lo devuelve en formato VideoMiner.
 
     public VMChannel getChannel(String channelId, int maxVideos, int maxComments) {
-        // 1. Obtener información del canal desde PeerTube
+        // 1. Obtener información del canal desde la API de PeerTube
         Channel ptChannel = restTemplate.getForObject(
                 peerTubeBaseUrl + "/api/v1/video-channels/" + channelId,
                 Channel.class);
@@ -57,7 +57,7 @@ public class PeerTubeMinerService {
             }
         }
 
-        // 3. Construir el VMChannel final con todos los vídeos transformados
+        // 3. Construir el VMChannel final con todos los vídeos transformados (formato videoMiner)
         return Transformer.toVMChannel(ptChannel, vmVideos);
     }
 
